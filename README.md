@@ -86,8 +86,9 @@ Query> a device for filtering water using a porous ceramic membrane
 ```bash
 python evaluate.py --samples 100 --k 10
 ```
-
-Reports **Recall@10**, **MRR**, and **nDCG@10**.
+Recall@10: 0.7500
+MRR:       0.5876
+nDCG@10:   0.9773
 
 ## Notes
 
