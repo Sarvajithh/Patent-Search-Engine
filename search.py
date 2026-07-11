@@ -27,8 +27,11 @@ from utils import (
 
 
 def retrieve(query: str, model, index, meta: list, top_k: int):
+    """Takes the query as input and returns the top_k similar vectors stored in FAISS index."""
+    # encode the query
     query_vec = model.encode([query], convert_to_numpy=True).astype("float32")
     faiss.normalize_L2(query_vec)
+    # store the results 
     scores, ids = index.search(query_vec, top_k)
     results = []
     for score, idx in zip(scores[0], ids[0]):
@@ -41,6 +44,7 @@ def retrieve(query: str, model, index, meta: list, top_k: int):
 
 
 def rerank(query: str, candidates: list, cross_encoder):
+    """We re-rank the vectors we retrieved through retrieve function using cross encoder."""
     pairs = [(query, c["abstract"]) for c in candidates]
     scores = cross_encoder.predict(pairs)
     for c, s in zip(candidates, scores):

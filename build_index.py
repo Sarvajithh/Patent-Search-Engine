@@ -66,12 +66,15 @@ def build_faiss_index(embeddings: np.ndarray) -> faiss.Index:
     """Cosine similarity via inner product on L2-normalized vectors."""
     dim = embeddings.shape[1]
     faiss.normalize_L2(embeddings)
+    # initialize flat index
     index = faiss.IndexFlatIP(dim)
+    # add embeddings
     index.add(embeddings)
     return index
 
 
 def main():
+    # argument parser
     parser = argparse.ArgumentParser(description="Build the patent FAISS index.")
     parser.add_argument("--n", type=int, default=DEFAULT_N,
                          help="Number of patents to download (keeps dataset small).")
